@@ -39,3 +39,40 @@ func TestInvalidDecrypt(t *testing.T) {
 	err = Decrypt("out.cpabe", "test2", "local", "plaintextFile1")
 	require.Error(t, err)
 }
+
+func TestDecryptPK(t *testing.T) {
+	err := KeyGenPK("Alice")
+	require.NoError(t, err)
+
+	err = KeyGenPK("Bob")
+	require.NoError(t, err)
+
+	data := []byte("hello, world!")
+	err = EncryptPK(data, "Alice", "Bob", "input.txt", "input.pkenc")
+	require.NoError(t, err)
+
+	err = DecryptPK("input.pkenc", "Alice", "Bob", "plaintextFile_PK")
+	require.NoError(t, err)
+
+	plaintext, err := getPlainText("plaintextFile_PK")
+	require.NoError(t, err)
+	require.True(t, bytes.Equal(data, plaintext))
+}
+
+func TestInvalidDecryptPK(t *testing.T) {
+	err := KeyGenPK("Alice")
+	require.NoError(t, err)
+
+	err = KeyGenPK("Bob")
+	require.NoError(t, err)
+
+	err = KeyGenPK("Carol")
+	require.NoError(t, err)
+
+	data := []byte("hello, world!")
+	err = EncryptPK(data, "Alice", "Bob", "input.txt", "input.pkenc")
+	require.NoError(t, err)
+
+	err = DecryptPK("input.pkenc", "Alice", "Carol", "plaintextFile_PK")
+	require.Error(t, err)
+}

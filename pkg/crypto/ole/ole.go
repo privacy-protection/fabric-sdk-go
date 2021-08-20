@@ -136,3 +136,93 @@ func getPlainText(plaintextFileName string) ([]byte, error){
 
 }
 
+
+func KeyGenPK(userName string) (error) {
+	command := exec.Command("oabe_keygen", "-s", "PK", "-i", userName)
+	command.Stdout = &bytes.Buffer{}
+  	command.Stderr = &bytes.Buffer{}
+
+  	err := command.Run()
+  	if err != nil{
+	    	fmt.Println(err)
+	    	fmt.Println(command.Stderr.(*bytes.Buffer).String())
+	    	return err
+  	}
+  	fmt.Println(command.Stdout.(*bytes.Buffer).String())
+  	return nil
+}
+
+func EncryptPK(data []byte, senderName string, receiverName string, inputFileName string, outputFileName string)(error) {
+	//write data into file
+	filePath := "/home/hhx/go/src/github.com-abe/hyperledger/fabric-sdk-go/pkg/crypto/rle"//os.Executable()
+
+	_, err := os.Stat(filePath+"/"+inputFileName)
+	if !os.IsNotExist(err) {
+		err := os.Remove(filePath + "/" + inputFileName)
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+	}
+	file, err := os.Create(filePath+"/"+inputFileName)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	file, err = os.OpenFile(filePath+"/"+inputFileName, os.O_WRONLY|os.O_CREATE, 0666)
+	//close file
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+			fmt.Println(err)
+		}
+	}(file)
+	//use *Writer with cache to write into file
+	write := bufio.NewWriter(file)
+	writeString, err := write.WriteString(string(data))
+	if err != nil {
+		fmt.Print("number of bytes written to file:")
+		fmt.Println(writeString)
+		fmt.Println(err)
+		return err
+	}
+
+	//write
+	err = write.Flush()
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	command := exec.Command("oabe_enc", "-s", "PK", "-e", senderName, "-r", receiverName, "-i", inputFileName, "-o", outputFileName)
+	command.Stdout = &bytes.Buffer{}
+  	command.Stderr = &bytes.Buffer{}
+	
+	err = command.Run()
+	if err != nil{
+		fmt.Println(err)
+		fmt.Println(command.Stderr.(*bytes.Buffer).String())
+		return err
+	}
+	fmt.Println(command.Stdout.(*bytes.Buffer).String())
+	return nil
+}
+
+func DecryptPK(ciphertextFileName string, senderName string, receiverName string, plaintextFileName string)(error) {
+	//write data into file
+	filePath := "/home/hhx/go/src/github.com-abe/hyperledger/fabric-sdk-go/pkg/crypto/rle"//os.Executable()
+
+	command := exec.Command("oabe_dec", "-s", "PK", "-e", senderName, "-r", receiverName, "-i", filePath+"/"+ciphertextFileName, "-o", filePath+"/"+plaintextFileName)
+	command.Stdout = &bytes.Buffer{}
+	command.Stderr = &bytes.Buffer{}
+
+	err := command.Run()
+	if err != nil{
+		fmt.Println(err)
+		fmt.Println(command.Stderr.(*bytes.Buffer).String())
+		return err
+	}
+	fmt.Println(command.Stdout.(*bytes.Buffer).String())
+	return nil
+}
+
