@@ -27,8 +27,11 @@ func KeyGen(masterKey *core.MasterKey, fields []int) (*core.Key, error) {
 	return core.Generate(masterKey, tree)
 }
 
-func Encrypt(data []byte, field int, params *core.Params) ([]byte, error) {
-	attributes := []int32{int32(field)}
+func Encrypt(data []byte, fields []int, params *core.Params) ([]byte, error) {
+	attributes := make([]int32, len(fields))
+	for i, field := range fields {
+		attributes[i] = int32(field)
+	}
 	ciphertext, err := core.Encrypt(data, attributes, params)
 	if err != nil {
 		return nil, fmt.Errorf("encrypt error, %v", err)

@@ -15,7 +15,7 @@ func TestDecrypt(t *testing.T) {
 	require.NoError(t, err)
 
 	data := []byte("hello world")
-	ciphertext, err := Encrypt(data, 2, key.Param)
+	ciphertext, err := Encrypt(data, []int{2}, key.Param)
 	require.NoError(t, err)
 
 	decodedData, err := Decrypt(key, ciphertext)
@@ -31,7 +31,7 @@ func TestInvalidDecrypt(t *testing.T) {
 	require.NoError(t, err)
 
 	data := []byte("hello world")
-	ciphertext, err := Encrypt(data, 0, key.Param)
+	ciphertext, err := Encrypt(data, []int{0}, key.Param)
 	require.NoError(t, err)
 
 	_, err = Decrypt(key, ciphertext)
