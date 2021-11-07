@@ -2,19 +2,20 @@ package ole
 
 import (
 	"bytes"
-	"github.com/stretchr/testify/require"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestDecrypt(t *testing.T) {
 	err := Setup("local")
 	require.NoError(t, err)
 
-	err = KeyGen([]string{"CompanyA", "Leader", "Male"}, "test1", "local")
+	_, err = KeyGen([]string{"CompanyA", "Leader", "Male"}, "test1", "local")
 	require.NoError(t, err)
 
 	data := []byte("hello world!")
-	err = Encrypt(data, "(CompanyA and Male)",  "local", "input", "out")
+	_, err = Encrypt(data, "(CompanyA and Male)", "local", "input", "out")
 	require.NoError(t, err)
 
 	err = Decrypt("out.cpabe", "test1", "local", "plaintextFile1")
@@ -29,11 +30,11 @@ func TestInvalidDecrypt(t *testing.T) {
 	err := Setup("local")
 	require.NoError(t, err)
 
-	err = KeyGen([]string{"CompanyB", "Leader", "FeMale"}, "test2", "local")
+	_, err = KeyGen([]string{"CompanyB", "Leader", "FeMale"}, "test2", "local")
 	require.NoError(t, err)
 
 	data := []byte("hello world!")
-	err = Encrypt(data, "(CompanyA and Male)",  "local", "input", "out")
+	_, err = Encrypt(data, "(CompanyA and Male)", "local", "input", "out")
 	require.NoError(t, err)
 
 	err = Decrypt("out.cpabe", "test2", "local", "plaintextFile1")
