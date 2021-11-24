@@ -4,76 +4,74 @@ import (
 	"bytes"
 	"testing"
 
+	"github.com/privacy-protection/cp-abe/utils"
 	"github.com/stretchr/testify/require"
 )
 
+func TestSetup(t *testing.T) {
+	masterKey, err := Setup()
+	require.NoError(t, err)
+	require.NotNil(t, masterKey)
+}
+
+func TestKeyGen(t *testing.T) {
+	masterKey, err := Setup()
+	require.NoError(t, err)
+
+	key, err := KeyGen(masterKey, []int{1, 2, 3, 4})
+	require.NoError(t, err)
+	require.NotNil(t, key)
+}
+
+func TestEncrypt(t *testing.T) {
+	masterKey, err := Setup()
+	require.NoError(t, err)
+
+	a := utils.Hash("pufa")
+	b := utils.Hash("zhaoshang")
+
+	key, err := KeyGen(masterKey, []int{a, b})
+	require.NoError(t, err)
+
+	data := []byte("hello world")
+	ciphertext, err := Encrypt(data, "(pufa or jiaohang) and zhaoshang", key.Param)
+	require.NoError(t, err)
+	require.NotNil(t, ciphertext)
+}
+
 func TestDecrypt(t *testing.T) {
-	err := Setup("local")
+	masterKey, err := Setup()
 	require.NoError(t, err)
 
-	_, err = KeyGen([]string{"CompanyA", "Leader", "Male"}, "test1", "local")
+	a := utils.Hash("pufa")
+	b := utils.Hash("zhaoshang")
+
+	key, err := KeyGen(masterKey, []int{a, b})
 	require.NoError(t, err)
 
-	data := []byte("hello world!")
-	_, err = Encrypt(data, "(CompanyA and Male)", "local", "input", "out")
+	data := []byte("hello world")
+	ciphertext, err := Encrypt(data, "(pufa or zhongzhai) and zhaoshang", key.Param)
 	require.NoError(t, err)
 
-	err = Decrypt("out.cpabe", "test1", "local", "plaintextFile1")
+	decodedData, err := Decrypt(key, ciphertext)
 	require.NoError(t, err)
-
-	plaintext, err := getPlainText("plaintextFile1")
-	require.NoError(t, err)
-	require.True(t, bytes.Equal(data, plaintext))
+	require.True(t, bytes.Equal(data, decodedData))
 }
 
 func TestInvalidDecrypt(t *testing.T) {
-	err := Setup("local")
+	masterKey, err := Setup()
 	require.NoError(t, err)
 
-	_, err = KeyGen([]string{"CompanyB", "Leader", "FeMale"}, "test2", "local")
+	a := utils.Hash("pufa")
+	b := utils.Hash("zhaoshang")
+
+	key, err := KeyGen(masterKey, []int{a, b})
 	require.NoError(t, err)
 
-	data := []byte("hello world!")
-	_, err = Encrypt(data, "(CompanyA and Male)", "local", "input", "out")
+	data := []byte("hello world")
+	ciphertext, err := Encrypt(data, "(pufa and zhaoshang and jiaohang) or zhongzhai", key.Param)
 	require.NoError(t, err)
 
-	err = Decrypt("out.cpabe", "test2", "local", "plaintextFile1")
-	require.Error(t, err)
-}
-
-func TestDecryptPK(t *testing.T) {
-	err := KeyGenPK("Alice")
-	require.NoError(t, err)
-
-	err = KeyGenPK("Bob")
-	require.NoError(t, err)
-
-	data := []byte("hello, world!")
-	err = EncryptPK(data, "Alice", "Bob", "input.txt", "input.pkenc")
-	require.NoError(t, err)
-
-	err = DecryptPK("input.pkenc", "Alice", "Bob", "plaintextFile_PK")
-	require.NoError(t, err)
-
-	plaintext, err := getPlainText("plaintextFile_PK")
-	require.NoError(t, err)
-	require.True(t, bytes.Equal(data, plaintext))
-}
-
-func TestInvalidDecryptPK(t *testing.T) {
-	err := KeyGenPK("Alice")
-	require.NoError(t, err)
-
-	err = KeyGenPK("Bob")
-	require.NoError(t, err)
-
-	err = KeyGenPK("Carol")
-	require.NoError(t, err)
-
-	data := []byte("hello, world!")
-	err = EncryptPK(data, "Alice", "Bob", "input.txt", "input.pkenc")
-	require.NoError(t, err)
-
-	err = DecryptPK("input.pkenc", "Alice", "Carol", "plaintextFile_PK")
+	_, err = Decrypt(key, ciphertext)
 	require.Error(t, err)
 }
