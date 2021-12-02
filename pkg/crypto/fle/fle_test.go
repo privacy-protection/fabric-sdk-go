@@ -8,13 +8,13 @@ import (
 )
 
 func TestSetup(t *testing.T) {
-	masterKey, err := Setup()
+	masterKey, err := Setup(256)
 	require.NoError(t, err)
 	require.NotNil(t, masterKey)
 }
 
 func TestKeyGen(t *testing.T) {
-	masterKey, err := Setup()
+	masterKey, err := Setup(256)
 	require.NoError(t, err)
 
 	key, err := KeyGen(masterKey, []int{1, 2, 3, 4})
@@ -23,7 +23,7 @@ func TestKeyGen(t *testing.T) {
 }
 
 func TestEncrypt(t *testing.T) {
-	masterKey, err := Setup()
+	masterKey, err := Setup(256)
 	require.NoError(t, err)
 
 	key, err := KeyGen(masterKey, []int{1, 2, 3, 4})
@@ -36,7 +36,7 @@ func TestEncrypt(t *testing.T) {
 }
 
 func TestDecrypt(t *testing.T) {
-	masterKey, err := Setup()
+	masterKey, err := Setup(256)
 	require.NoError(t, err)
 
 	key, err := KeyGen(masterKey, []int{1, 2, 3, 4})
@@ -52,7 +52,7 @@ func TestDecrypt(t *testing.T) {
 }
 
 func TestInvalidDecrypt(t *testing.T) {
-	masterKey, err := Setup()
+	masterKey, err := Setup(256)
 	require.NoError(t, err)
 
 	key, err := KeyGen(masterKey, []int{1, 2, 3, 4})
