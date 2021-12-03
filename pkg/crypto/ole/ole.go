@@ -4,17 +4,18 @@ import (
 	"fmt"
 
 	"github.com/golang/protobuf/proto"
+	"github.com/privacy-protection/common/abe/parser"
+	"github.com/privacy-protection/common/abe/protos/cpabe"
 	"github.com/privacy-protection/cp-abe/core"
-	"github.com/privacy-protection/cp-abe/parser"
-	"github.com/privacy-protection/cp-abe/protos"
 )
 
-func Setup() (*protos.MasterKey, error) {
+// Setup 初始化函数
+func Setup() (*cpabe.MasterKey, error) {
 	return core.Init()
 }
 
-// fields: attributes of user
-func KeyGen(masterKey *protos.MasterKey, fields []int) (*protos.Key, error) {
+// KeyGen 用户密钥生成函数,输入的fields是用户的属性
+func KeyGen(masterKey *cpabe.MasterKey, fields []int) (*cpabe.Key, error) {
 	attributes := make([]int32, len(fields))
 	for i, field := range fields {
 		attributes[i] = int32(field)
@@ -22,8 +23,8 @@ func KeyGen(masterKey *protos.MasterKey, fields []int) (*protos.Key, error) {
 	return core.Generate(masterKey, attributes)
 }
 
-// fields: policy tree
-func Encrypt(data []byte, fields string, params *protos.Params) ([]byte, error) {
+// Encrypt 加密函数,输入的fields是访问树
+func Encrypt(data []byte, fields string, params *cpabe.Params) ([]byte, error) {
 	tree, err := parser.ParsePolicy(fields)
 	if err != nil {
 		return nil, fmt.Errorf("parse error, %v", err)
@@ -40,8 +41,9 @@ func Encrypt(data []byte, fields string, params *protos.Params) ([]byte, error) 
 	return bytes, nil
 }
 
-func Decrypt(key *protos.Key, ciphertext []byte) ([]byte, error) {
-	c := &protos.Ciphertext{}
+// Decrypt 解密函数
+func Decrypt(key *cpabe.Key, ciphertext []byte) ([]byte, error) {
+	c := &cpabe.Ciphertext{}
 	err := proto.Unmarshal(ciphertext, c)
 	if err != nil {
 		return nil, fmt.Errorf("unmarshal ciphertext error, %v", err)

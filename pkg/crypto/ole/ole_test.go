@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/privacy-protection/cp-abe/utils"
+	"github.com/privacy-protection/common/abe/utils"
 	"github.com/stretchr/testify/require"
 )
 
