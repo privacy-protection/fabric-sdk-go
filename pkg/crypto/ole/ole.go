@@ -9,12 +9,12 @@ import (
 	"github.com/privacy-protection/cp-abe/core"
 )
 
-// Setup 初始化函数
+// Setup 初始化函数，生成主密钥
 func Setup() (*cpabe.MasterKey, error) {
 	return core.Init()
 }
 
-// KeyGen 用户密钥生成函数,输入的fields是用户的属性
+// KeyGen 用户密钥生成函数,输入用户的属性fields，生成用户密钥
 func KeyGen(masterKey *cpabe.MasterKey, fields []int) (*cpabe.Key, error) {
 	attributes := make([]int32, len(fields))
 	for i, field := range fields {
@@ -23,7 +23,7 @@ func KeyGen(masterKey *cpabe.MasterKey, fields []int) (*cpabe.Key, error) {
 	return core.Generate(masterKey, attributes)
 }
 
-// Encrypt 加密函数,输入的fields是访问树
+// Encrypt 加密函数,输入访问树fields，明文数据data和公共参数，得到密文数据
 func Encrypt(data []byte, fields string, params *cpabe.Params) ([]byte, error) {
 	tree, err := parser.ParsePolicy(fields)
 	if err != nil {
@@ -41,7 +41,7 @@ func Encrypt(data []byte, fields string, params *cpabe.Params) ([]byte, error) {
 	return bytes, nil
 }
 
-// Decrypt 解密函数
+// Decrypt 解密函数，输入用户密钥和密文，得到数据明文
 func Decrypt(key *cpabe.Key, ciphertext []byte) ([]byte, error) {
 	c := &cpabe.Ciphertext{}
 	err := proto.Unmarshal(ciphertext, c)
