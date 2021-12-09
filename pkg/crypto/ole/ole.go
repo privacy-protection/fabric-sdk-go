@@ -6,6 +6,7 @@ import (
 	"github.com/golang/protobuf/proto"
 	"github.com/privacy-protection/common/abe/parser"
 	"github.com/privacy-protection/common/abe/protos/cpabe"
+	"github.com/privacy-protection/common/abe/utils"
 	"github.com/privacy-protection/cp-abe/core"
 )
 
@@ -15,10 +16,10 @@ func Setup() (*cpabe.MasterKey, error) {
 }
 
 // KeyGen 用户密钥生成函数,输入用户的属性fields，生成用户密钥
-func KeyGen(masterKey *cpabe.MasterKey, fields []int) (*cpabe.Key, error) {
+func KeyGen(masterKey *cpabe.MasterKey, fields []string) (*cpabe.Key, error) {
 	attributes := make([]int32, len(fields))
 	for i, field := range fields {
-		attributes[i] = int32(field)
+		attributes[i] = int32(utils.Hash(field))
 	}
 	return core.Generate(masterKey, attributes)
 }

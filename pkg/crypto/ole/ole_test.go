@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/privacy-protection/common/abe/utils"
 	"github.com/stretchr/testify/require"
 )
 
@@ -18,7 +17,7 @@ func TestKeyGen(t *testing.T) {
 	masterKey, err := Setup()
 	require.NoError(t, err)
 
-	key, err := KeyGen(masterKey, []int{1, 2, 3, 4})
+	key, err := KeyGen(masterKey, []string{"pufa", "zhaoshang"})
 	require.NoError(t, err)
 	require.NotNil(t, key)
 }
@@ -27,10 +26,7 @@ func TestEncrypt(t *testing.T) {
 	masterKey, err := Setup()
 	require.NoError(t, err)
 
-	a := utils.Hash("pufa")
-	b := utils.Hash("zhaoshang")
-
-	key, err := KeyGen(masterKey, []int{a, b})
+	key, err := KeyGen(masterKey, []string{"pufa", "zhaoshang"})
 	require.NoError(t, err)
 
 	data := []byte("hello world")
@@ -43,10 +39,7 @@ func TestDecrypt(t *testing.T) {
 	masterKey, err := Setup()
 	require.NoError(t, err)
 
-	a := utils.Hash("pufa")
-	b := utils.Hash("zhaoshang")
-
-	key, err := KeyGen(masterKey, []int{a, b})
+	key, err := KeyGen(masterKey, []string{"pufa", "zhaoshang"})
 	require.NoError(t, err)
 
 	data := []byte("hello world")
@@ -62,10 +55,7 @@ func TestInvalidDecrypt(t *testing.T) {
 	masterKey, err := Setup()
 	require.NoError(t, err)
 
-	a := utils.Hash("pufa")
-	b := utils.Hash("zhaoshang")
-
-	key, err := KeyGen(masterKey, []int{a, b})
+	key, err := KeyGen(masterKey, []string{"pufa", "zhaoshang"})
 	require.NoError(t, err)
 
 	data := []byte("hello world")
