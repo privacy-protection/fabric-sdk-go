@@ -1,8 +1,8 @@
 package delegate
 
 import (
-	cpabe "github.com/privacy-protection/cp-abe/core"
-	cpabeProtos "github.com/privacy-protection/cp-abe/protos"
+	cpabeProtos "github.com/privacy-protection/common/abe/protos/cpabe"
+	cpabe "github.com/privacy-protection/cp-abe/delegate"
 )
 
 func CpabeDelegate(oldKey *cpabeProtos.Key, newAttribute []int) (*cpabeProtos.Key, error) {

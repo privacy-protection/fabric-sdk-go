@@ -3,8 +3,8 @@ package delegate
 import (
 	"fmt"
 
-	kpabe "github.com/privacy-protection/kp-abe/core"
-	kpabeProtos "github.com/privacy-protection/kp-abe/protos"
+	kpabeProtos "github.com/privacy-protection/common/abe/protos/kpabe"
+	kpabe "github.com/privacy-protection/kp-abe/delegate"
 )
 
 func KpabeUpdateThreshold(oldKey *kpabeProtos.Key, newThreshold []int) (*kpabeProtos.Key, error) {

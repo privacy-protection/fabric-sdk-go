@@ -5,12 +5,12 @@ import (
 	"testing"
 
 	"github.com/hyperledger/fabric-sdk-go/pkg/crypto/fle"
-	"github.com/privacy-protection/cp-abe/utils"
+	"github.com/privacy-protection/common/abe/utils"
 	"github.com/stretchr/testify/require"
 )
 
 func TestKpabeUpdateThreshold(t *testing.T) {
-	masterKey, err := fle.Setup()
+	masterKey, err := fle.Setup(256)
 	require.NoError(t, err)
 
 	a := utils.Hash("pufa")
@@ -33,7 +33,7 @@ func TestKpabeUpdateThreshold(t *testing.T) {
 }
 
 func TestKpabeFieldDelegate(t *testing.T) {
-	masterKey, err := fle.Setup()
+	masterKey, err := fle.Setup(256)
 	require.NoError(t, err)
 
 	a := utils.Hash("pufa")
