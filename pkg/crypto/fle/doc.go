@@ -1,7 +1,7 @@
 // Package fle 为字段级加密的代码，其中包含了初始化，用户密钥生成，加密和解密的方法
 //
 // 使用字段级进行加解密的例子如下：
-//	masterKey, err := Setup(256)
+//	masterKey, err := Setup()
 //	if err != nil {
 //		panic(err)
 //	}

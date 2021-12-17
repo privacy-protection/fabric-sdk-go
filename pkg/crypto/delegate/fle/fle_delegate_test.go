@@ -10,7 +10,7 @@ import (
 )
 
 func TestKpabeUpdateThreshold(t *testing.T) {
-	masterKey, err := fle.Setup(256)
+	masterKey, err := fle.Setup()
 	require.NoError(t, err)
 
 	a := utils.Hash("pufa")
@@ -33,7 +33,7 @@ func TestKpabeUpdateThreshold(t *testing.T) {
 }
 
 func TestKpabeFieldDelegate(t *testing.T) {
-	masterKey, err := fle.Setup(256)
+	masterKey, err := fle.Setup()
 	require.NoError(t, err)
 
 	a := utils.Hash("pufa")

@@ -10,8 +10,8 @@ import (
 )
 
 // Setup 初始化函数
-func Setup(bits int) (*kb.MasterKey, error) {
-	return core.Init(bits)
+func Setup() (*kb.MasterKey, error) {
+	return core.Init()
 }
 
 // KeyGen 用户密钥生成函数

@@ -17,9 +17,9 @@ require (
 	github.com/miekg/pkcs11 v1.0.3
 	github.com/mitchellh/mapstructure v1.3.2
 	github.com/pkg/errors v0.8.1
-	github.com/privacy-protection/common v0.0.0
-	github.com/privacy-protection/cp-abe v0.0.0
-	github.com/privacy-protection/kp-abe v0.0.0
+	github.com/privacy-protection/common v1.0.0
+	github.com/privacy-protection/cp-abe v1.0.1
+	github.com/privacy-protection/kp-abe v1.7.1
 	github.com/prometheus/client_golang v1.1.0
 	github.com/spf13/cast v1.3.1
 	github.com/spf13/viper v1.7.1
@@ -31,9 +31,9 @@ require (
 )
 
 replace (
-	github.com/privacy-protection/common v0.0.0 => ../common
-	github.com/privacy-protection/cp-abe v0.0.0 => ../cp-abe
-	github.com/privacy-protection/kp-abe v0.0.0 => ../kp-abe
+	github.com/privacy-protection/common => ../common
+	github.com/privacy-protection/cp-abe => ../cp-abe
+	github.com/privacy-protection/kp-abe => ../kp-abe
 )
 
 go 1.14

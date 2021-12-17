@@ -40,7 +40,6 @@ func TestInvalidCpabeDelegate(t *testing.T) {
 	a := utils.Hash("pufa")
 	b := utils.Hash("zhongzhai")
 	key, err = CpabeDelegate(key, []int{a, b})
-	decodedData, err := ole.Decrypt(key, ciphertext)
-	require.NoError(t, err)
-	require.True(t, bytes.Equal(data, decodedData))
+	_, err = ole.Decrypt(key, ciphertext)
+	require.Error(t, err)
 }
