@@ -1,12 +1,12 @@
-//mixed encryption
-package me
+//hybrid encryption
+package he
 
 import (
 	"fmt"
 	"log"
 
-	sm2 "github.com/privacy-protection/mixed-enc/sm2"
-	sm4 "github.com/privacy-protection/mixed-enc/sm4"
+	sm2 "github.com/privacy-protection/hybrid-enc/sm2"
+	sm4 "github.com/privacy-protection/hybrid-enc/sm4"
 )
 
 //sm4对称加密算法，输入对称密钥key和明文数据data，返回密文

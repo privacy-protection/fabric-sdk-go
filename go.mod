@@ -1,8 +1,6 @@
-// Copyright SecureKey Technologies Inc. All Rights Reserved.
-//
-// SPDX-License-Identifier: Apache-2.0
-
 module github.com/hyperledger/fabric-sdk-go
+
+go 1.15
 
 require (
 	github.com/Knetic/govaluate v3.0.0+incompatible
@@ -19,8 +17,8 @@ require (
 	github.com/pkg/errors v0.8.1
 	github.com/privacy-protection/common v1.8.0
 	github.com/privacy-protection/cp-abe v1.8.0
+	github.com/privacy-protection/hybrid-enc v0.0.0
 	github.com/privacy-protection/kp-abe v1.8.0
-	github.com/privacy-protection/mixed-enc v0.0.0
 	github.com/prometheus/client_golang v1.1.0
 	github.com/spf13/cast v1.3.1
 	github.com/spf13/viper v1.7.1
@@ -29,13 +27,12 @@ require (
 	golang.org/x/net v0.0.0-20211112202133-69e39bad7dc2
 	google.golang.org/grpc v1.29.1
 	gopkg.in/yaml.v2 v2.3.0
+
 )
 
 replace (
 	github.com/privacy-protection/common => ../common
 	github.com/privacy-protection/cp-abe => ../cp-abe
+	github.com/privacy-protection/hybrid-enc => ../hybrid-enc
 	github.com/privacy-protection/kp-abe => ../kp-abe
-	github.com/privacy-protection/mixed-enc => ../mixed-enc
 )
-
-go 1.14
