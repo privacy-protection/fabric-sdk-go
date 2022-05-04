@@ -1,6 +1,7 @@
 package ole
 
 import (
+	"encoding/pem"
 	"fmt"
 
 	"github.com/golang/protobuf/proto"
@@ -50,4 +51,43 @@ func Decrypt(key *cpabe.Key, ciphertext []byte) ([]byte, error) {
 		return nil, fmt.Errorf("unmarshal ciphertext error, %v", err)
 	}
 	return core.Decrypt(key, c)
+}
+
+// 时间访问控制用，不可删
+func EncryptWithTime(data []byte, fields string, params *cpabe.Params) ([]byte, error) {
+	tree, _, err := parser.MyParsePolicy(fields, 32)
+	if err != nil {
+		return nil, fmt.Errorf("parse error, %v", err)
+	}
+
+	ciphertext, err := core.Encrypt(data, tree, params)
+	if err != nil {
+		return nil, fmt.Errorf("encrypt error, %v", err)
+	}
+	bytes, err := proto.Marshal(ciphertext)
+	if err != nil {
+		return nil, fmt.Errorf("marshal ciphertext error, %v", err)
+	}
+	return bytes, nil
+}
+
+func EncryptAESKey(data []byte, policy string, params []byte) ([]byte, error) {
+	tree, _, err := parser.MyParsePolicy(policy, 32)
+	if err != nil {
+		return nil, fmt.Errorf("parse error, %v", err)
+	}
+	block, _ := pem.Decode(params)
+	cpparams := &cpabe.Params{}
+	if err := proto.Unmarshal(block.Bytes, cpparams); err != nil {
+		return nil, fmt.Errorf("unmarshal Params error, %v", err)
+	}
+	ciphertext, err := core.Encrypt(data, tree, cpparams)
+	if err != nil {
+		return nil, fmt.Errorf("encrypt error, %v", err)
+	}
+	bytes, err := proto.Marshal(ciphertext)
+	if err != nil {
+		return nil, fmt.Errorf("marshal ciphertext error, %v", err)
+	}
+	return bytes, nil
 }
