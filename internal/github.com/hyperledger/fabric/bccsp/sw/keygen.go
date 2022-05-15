@@ -13,10 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-/*
-Notice: This file has been modified for Hyperledger Fabric SDK Go usage.
-Please review third_party pinning scripts and patches for more details.
-*/
 
 package sw
 
@@ -24,9 +20,12 @@ import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
+	"crypto/rsa"
 	"fmt"
 
-	"github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric/bccsp"
+	"github.com/privacy-protection/hybrid-encryption/third_party/github.com/hyperledger/fabric/bccsp"
+
+	"github.com/privacy-protection/cp-abe/core"
 )
 
 type ecdsaKeyGenerator struct {
@@ -39,7 +38,7 @@ func (kg *ecdsaKeyGenerator) KeyGen(opts bccsp.KeyGenOpts) (bccsp.Key, error) {
 		return nil, fmt.Errorf("Failed generating ECDSA key for [%v]: [%s]", kg.curve, err)
 	}
 
-	return &ecdsaPrivateKey{privKey, true}, nil
+	return &ecdsaPrivateKey{privKey}, nil
 }
 
 type aesKeyGenerator struct {
@@ -53,4 +52,29 @@ func (kg *aesKeyGenerator) KeyGen(opts bccsp.KeyGenOpts) (bccsp.Key, error) {
 	}
 
 	return &aesPrivateKey{lowLevelKey, false}, nil
+}
+
+type rsaKeyGenerator struct {
+	length int
+}
+
+func (kg *rsaKeyGenerator) KeyGen(opts bccsp.KeyGenOpts) (bccsp.Key, error) {
+	lowLevelKey, err := rsa.GenerateKey(rand.Reader, int(kg.length))
+
+	if err != nil {
+		return nil, fmt.Errorf("Failed generating RSA %d key [%s]", kg.length, err)
+	}
+
+	return &rsaPrivateKey{lowLevelKey}, nil
+}
+
+type cpabeMasterKeyGenerator struct {
+}
+
+func (kg *cpabeMasterKeyGenerator) KeyGen(opts bccsp.KeyGenOpts) (bccsp.Key, error) {
+	lowLevelKey, err := core.Init()
+	if err != nil {
+		return nil, fmt.Errorf("Failed generating CPABE master key [%v]", err)
+	}
+	return &cpabeMasterKey{lowLevelKey}, nil
 }

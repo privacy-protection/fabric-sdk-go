@@ -1,35 +1,40 @@
 /*
-Copyright IBM Corp. All Rights Reserved.
+Copyright IBM Corp. 2016 All Rights Reserved.
 
-SPDX-License-Identifier: Apache-2.0
-*/
-/*
-Notice: This file has been modified for Hyperledger Fabric SDK Go usage.
-Please review third_party pinning scripts and patches for more details.
-*/
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
+		 http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 package signer
 
 import (
 	"crypto"
-	"crypto/x509"
 	"io"
 
-	"github.com/pkg/errors"
+	"github.com/privacy-protection/hybrid-encryption/third_party/github.com/hyperledger/fabric/bccsp"
+	"github.com/privacy-protection/hybrid-encryption/third_party/github.com/hyperledger/fabric/bccsp/utils"
 
-	"github.com/hyperledger/fabric-sdk-go/pkg/common/providers/core"
+	"github.com/pkg/errors"
 )
 
 // bccspCryptoSigner is the BCCSP-based implementation of a crypto.Signer
 type bccspCryptoSigner struct {
-	csp core.CryptoSuite
-	key core.Key
+	csp bccsp.BCCSP
+	key bccsp.Key
 	pk  interface{}
 }
 
 // New returns a new BCCSP-based crypto.Signer
 // for the given BCCSP instance and key.
-func New(csp core.CryptoSuite, key core.Key) (crypto.Signer, error) {
+func New(csp bccsp.BCCSP, key bccsp.Key) (crypto.Signer, error) {
 	// Validate arguments
 	if csp == nil {
 		return nil, errors.New("bccsp instance must be different from nil.")
@@ -52,7 +57,7 @@ func New(csp core.CryptoSuite, key core.Key) (crypto.Signer, error) {
 		return nil, errors.Wrap(err, "failed marshalling public key")
 	}
 
-	pk, err := x509.ParsePKIXPublicKey(raw)
+	pk, err := utils.DERToPublicKey(raw)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed marshalling der to public key")
 	}
@@ -66,9 +71,10 @@ func (s *bccspCryptoSigner) Public() crypto.PublicKey {
 	return s.pk
 }
 
-// Sign signs digest with the private key, possibly using entropy from rand.
-// For an (EC)DSA key, it should be a DER-serialised, ASN.1 signature
-// structure.
+// Sign signs digest with the private key, possibly using entropy from
+// rand. For an RSA key, the resulting signature should be either a
+// PKCS#1 v1.5 or PSS signature (as indicated by opts). For an (EC)DSA
+// key, it should be a DER-serialised, ASN.1 signature structure.
 //
 // Hash implements the SignerOpts interface and, in most cases, one can
 // simply pass in the hash function used as opts. Sign may also attempt

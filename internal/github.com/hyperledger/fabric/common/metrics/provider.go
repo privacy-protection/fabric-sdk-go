@@ -3,10 +3,6 @@ Copyright IBM Corp. All Rights Reserved.
 
 SPDX-License-Identifier: Apache-2.0
 */
-/*
-Notice: This file has been modified for Hyperledger Fabric SDK Go usage.
-Please review third_party pinning scripts and patches for more details.
-*/
 
 package metrics
 
@@ -49,10 +45,6 @@ type CounterOpts struct {
 	// metric. When a metric is recorded, label values must be provided for each
 	// of these label names.
 	LabelNames []string
-
-	// LabelHelp provides help information for labels. When set, this information
-	// will be used to populate the documentation.
-	LabelHelp map[string]string
 
 	// StatsdFormat determines how the fully-qualified statsd bucket name is
 	// constructed from Namespace, Subsystem, Name, and Labels. This is done by
@@ -101,10 +93,6 @@ type GaugeOpts struct {
 	// of these label names.
 	LabelNames []string
 
-	// LabelHelp provides help information for labels. When set, this information
-	// will be used to populate the documentation.
-	LabelHelp map[string]string
-
 	// StatsdFormat determines how the fully-qualified statsd bucket name is
 	// constructed from Namespace, Subsystem, Name, and Labels. This is done by
 	// including field references in `%{reference}` escape sequences.
@@ -152,10 +140,6 @@ type HistogramOpts struct {
 	// metric. When a metric is recorded, label values must be provided for each
 	// of these label names.
 	LabelNames []string
-
-	// LabelHelp provides help information for labels. When set, this information
-	// will be used to populate the documentation.
-	LabelHelp map[string]string
 
 	// StatsdFormat determines how the fully-qualified statsd bucket name is
 	// constructed from Namespace, Subsystem, Name, and Labels. This is done by

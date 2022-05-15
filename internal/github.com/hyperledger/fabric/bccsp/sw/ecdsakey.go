@@ -13,10 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-/*
-Notice: This file has been modified for Hyperledger Fabric SDK Go usage.
-Please review third_party pinning scripts and patches for more details.
-*/
 package sw
 
 import (
@@ -24,32 +20,20 @@ import (
 	"crypto/elliptic"
 	"crypto/sha256"
 	"crypto/x509"
-	"encoding/pem"
 	"errors"
 	"fmt"
 
-	"github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric/bccsp"
+	"github.com/privacy-protection/hybrid-encryption/third_party/github.com/hyperledger/fabric/bccsp"
 )
 
 type ecdsaPrivateKey struct {
-	privKey    *ecdsa.PrivateKey
-	exportable bool
+	privKey *ecdsa.PrivateKey
 }
 
 // Bytes converts this key to its byte representation,
 // if this operation is allowed.
 func (k *ecdsaPrivateKey) Bytes() ([]byte, error) {
-	if !k.exportable {
-		return nil, errors.New("not supported")
-	}
-
-	x509Encoded, err := x509.MarshalECPrivateKey(k.privKey)
-	if err != nil {
-		return nil, err
-	}
-	pemEncoded := pem.EncodeToMemory(&pem.Block{Type: "PRIVATE KEY", Bytes: x509Encoded})
-
-	return pemEncoded, nil
+	return nil, errors.New("Not supported.")
 }
 
 // SKI returns the subject key identifier of this key.
