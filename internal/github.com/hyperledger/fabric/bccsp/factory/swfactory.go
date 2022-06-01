@@ -16,8 +16,8 @@ limitations under the License.
 package factory
 
 import (
-	"github.com/privacy-protection/hybrid-encryption/third_party/github.com/hyperledger/fabric/bccsp"
-	"github.com/privacy-protection/hybrid-encryption/third_party/github.com/hyperledger/fabric/bccsp/sw"
+	"github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric/bccsp"
+	"github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric/bccsp/sw"
 
 	"github.com/pkg/errors"
 )

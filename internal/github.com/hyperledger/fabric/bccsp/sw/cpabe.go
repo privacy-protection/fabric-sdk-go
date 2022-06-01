@@ -1,9 +1,14 @@
+/*
+Copyright IBM Corp. All Rights Reserved.
+
+SPDX-License-Identifier: Apache-2.0
+*/
 package sw
 
 import (
 	"fmt"
 
-	"github.com/privacy-protection/hybrid-encryption/third_party/github.com/hyperledger/fabric/bccsp"
+	"github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric/bccsp"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/privacy-protection/common/abe/protos/cpabe"

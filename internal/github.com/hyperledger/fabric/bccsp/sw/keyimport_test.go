@@ -5,7 +5,7 @@ import (
 	"encoding/pem"
 	"testing"
 
-	"github.com/privacy-protection/hybrid-encryption/third_party/github.com/hyperledger/fabric/bccsp/utils"
+	"github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric/bccsp/utils"
 
 	"github.com/privacy-protection/cp-abe/core"
 	"github.com/stretchr/testify/require"

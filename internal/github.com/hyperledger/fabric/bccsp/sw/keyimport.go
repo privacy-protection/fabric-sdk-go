@@ -24,8 +24,8 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/privacy-protection/hybrid-encryption/third_party/github.com/hyperledger/fabric/bccsp"
-	"github.com/privacy-protection/hybrid-encryption/third_party/github.com/hyperledger/fabric/bccsp/utils"
+	"github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric/bccsp"
+	"github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric/bccsp/utils"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/privacy-protection/common/abe/protos/cpabe"

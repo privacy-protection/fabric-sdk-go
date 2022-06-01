@@ -12,7 +12,7 @@ import (
 	"os"
 	"sync"
 
-	"github.com/privacy-protection/hybrid-encryption/third_party/github.com/hyperledger/fabric/common/flogging/fabenc"
+	"github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric/common/flogging/fabenc"
 
 	logging "github.com/op/go-logging"
 	zaplogfmt "github.com/sykesm/zap-logfmt"

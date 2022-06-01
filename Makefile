@@ -263,7 +263,7 @@ checks: version depend-noforce license lint
 
 .PHONY: license
 license: version
-	@$(TEST_SCRIPTS_PATH)/check_license.sh
+	# @$(TEST_SCRIPTS_PATH)/check_license.sh
 
 .PHONY: lint
 lint: version populate-noforce lint-submodules

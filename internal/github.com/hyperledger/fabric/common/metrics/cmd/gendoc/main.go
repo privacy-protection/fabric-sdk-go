@@ -13,7 +13,7 @@ import (
 	"os"
 	"text/template"
 
-	"github.com/privacy-protection/hybrid-encryption/third_party/github.com/hyperledger/fabric/common/metrics/gendoc"
+	"github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric/common/metrics/gendoc"
 	"golang.org/x/tools/go/packages"
 )
 

@@ -9,8 +9,8 @@ SPDX-License-Identifier: Apache-2.0
 package factory
 
 import (
-	"github.com/privacy-protection/hybrid-encryption/third_party/github.com/hyperledger/fabric/bccsp"
-	"github.com/privacy-protection/hybrid-encryption/third_party/github.com/hyperledger/fabric/bccsp/pkcs11"
+	"github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric/bccsp"
+	"github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric/bccsp/pkcs11"
 
 	"github.com/pkg/errors"
 )

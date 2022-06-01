@@ -30,7 +30,7 @@ import (
 	"io"
 	"math/big"
 
-	"github.com/privacy-protection/hybrid-encryption/third_party/github.com/hyperledger/fabric/bccsp/sw/sm3"
+	"github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric/bccsp/sw/sm3"
 )
 
 var (

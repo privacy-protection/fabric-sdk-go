@@ -14,9 +14,9 @@ import (
 	"os"
 	"sync"
 
-	"github.com/privacy-protection/hybrid-encryption/third_party/github.com/hyperledger/fabric/bccsp"
-	"github.com/privacy-protection/hybrid-encryption/third_party/github.com/hyperledger/fabric/bccsp/sw"
-	"github.com/privacy-protection/hybrid-encryption/third_party/github.com/hyperledger/fabric/common/flogging"
+	"github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric/bccsp"
+	"github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric/bccsp/sw"
+	"github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric/common/flogging"
 
 	"github.com/miekg/pkcs11"
 	"github.com/pkg/errors"
